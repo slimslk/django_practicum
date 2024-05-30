@@ -15,6 +15,16 @@ class Author(models.Model):
     )
     rating = models.FloatField(
         default=1,
-        validators=[MinValueValidator(1),MaxValueValidator(10)],
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
         verbose_name='Рейтинг автора'
     )
+
+
+class Book(models.Model):
+    name = models.CharField(max_length=100)
+    author = models.ForeignKey(
+        'Author', null=True,
+        on_delete=models.SET_NULL,
+        related_name='books'
+    )
+    publish_date = models.DateField(auto_now_add=True)
