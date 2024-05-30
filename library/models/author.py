@@ -1,6 +1,16 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+GENRE_CHOISES = [
+    ('fiction','Fiction'),
+    ('non_fiction','Non Fiction'),
+    ('science_fiction','Science Fiction'),
+    ('fantasy','Fantasy'),
+    ('mystery','Mystery'),
+    ('biography','Biography'),
+    ('other', 'Other')
+]
+
 
 class Author(models.Model):
 
@@ -28,3 +38,9 @@ class Book(models.Model):
         related_name='books'
     )
     publish_date = models.DateField(auto_now_add=True)
+    description = models.TextField(null=True, blank=True)
+    genres = models.CharField(max_length=50, choices=GENRE_CHOISES, default='other')
+    pages = models.PositiveSmallIntegerField(
+        validators=[MaxValueValidator(10000)],
+        null=True,
+        blank=True)
