@@ -29,6 +29,9 @@ class Author(models.Model):
         verbose_name='Рейтинг автора'
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Book(models.Model):
     name = models.CharField(max_length=100)
@@ -44,3 +47,13 @@ class Book(models.Model):
         validators=[MaxValueValidator(10000)],
         null=True,
         blank=True)
+
+    publisher = models.ForeignKey(
+        'Publisher',
+        on_delete=models.SET_NULL,
+        related_name='books',
+        null=True
+    )
+
+    def __str__(self):
+        return self.name
