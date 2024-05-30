@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-GENRE_CHOISES = [
+GENRE_CHOICES = [
     ('fiction','Fiction'),
     ('non_fiction','Non Fiction'),
     ('science_fiction','Science Fiction'),
@@ -42,7 +42,7 @@ class Book(models.Model):
     )
     publish_date = models.DateField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)
-    genres = models.CharField(max_length=50, choices=GENRE_CHOISES, default='other')
+    genres = models.CharField(max_length=50, choices=GENRE_CHOICES, default='other')
     pages = models.PositiveSmallIntegerField(
         validators=[MaxValueValidator(10000)],
         null=True,
@@ -53,6 +53,12 @@ class Book(models.Model):
         on_delete=models.SET_NULL,
         related_name='books',
         null=True
+    )
+    category = models.ForeignKey(
+        'Category',
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='books'
     )
 
     def __str__(self):
